@@ -11,7 +11,6 @@ public interface ABFinanceApiAssetRestClient {
     Object getAssetDepositRecords(AssetDataRequest assetDepositRecordsRequest);
     Object getAssetSubMemberDepositAddress(AssetDataRequest subDepositRequest);
     Object getAssetSubMembersDepositRecords(AssetDataRequest assetDepositRecordsRequest);
-    Object getAssetCoinExchangeRecords(AssetDataRequest coinExchangeRecordsRequest);
     Object createAssetInternalTransfer(AssetDataRequest assetInternalTransferRequest);
     Object getAssetSingleCoinBalance(AssetDataRequest singleCoinBalanceRequest);
     Object getAssetAllCoinsBalance(AssetDataRequest allCoinsBalanceRequest);
@@ -25,4 +24,5 @@ public interface ABFinanceApiAssetRestClient {
     Object getAssetWithdrawAddress(AssetDataRequest request);
     Object getAssetWithdrawalRecords(AssetDataRequest assetWithdrawRecordsRequest);
     Object getAssetWithdrawalAmount(AssetDataRequest request);
+    Object getVaspList();
 }

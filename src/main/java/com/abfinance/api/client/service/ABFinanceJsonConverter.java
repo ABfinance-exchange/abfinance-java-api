@@ -4,20 +4,10 @@ import com.abfinance.api.client.constant.Helper;
 import com.abfinance.api.client.domain.CategoryType;
 import com.abfinance.api.client.domain.TradeOrderType;
 import com.abfinance.api.client.domain.TriggerBy;
-import com.abfinance.api.client.domain.account.request.AccountDataRequest;
-import com.abfinance.api.client.domain.account.request.SetCollateralCoinRequest;
 import com.abfinance.api.client.domain.asset.request.AssetDataRequest;
 import com.abfinance.api.client.domain.asset.request.*;
 import com.abfinance.api.client.domain.trade.*;
 import com.abfinance.api.client.domain.trade.request.*;
-import com.abfinance.api.client.domain.user.IsUta;
-import com.abfinance.api.client.domain.user.MemberType;
-import com.abfinance.api.client.domain.user.SwitchOption;
-import com.abfinance.api.client.domain.user.UserDataRequest;
-import com.abfinance.api.client.domain.user.request.CreateSubApiKeyRequest;
-import com.abfinance.api.client.domain.user.request.FreezeSubUIDRquest;
-import com.abfinance.api.client.domain.user.request.ModifyApiKeyRequest;
-import com.abfinance.api.client.domain.user.request.UserSubMemberRequest;
 import com.abfinance.api.client.exception.ABFinanceApiException;
 import com.abfinance.api.client.restApi.ABFinanceApiService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -31,7 +21,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.abfinance.api.client.constant.Helper.generateTransferID;
-import static com.abfinance.api.client.constant.Helper.listToString;
 
 public class ABFinanceJsonConverter {
     private final ObjectMapper mapper = new ObjectMapper();
@@ -243,15 +232,6 @@ public class ABFinanceJsonConverter {
                 .build();
     }
 
-    // Account request
-    public SetCollateralCoinRequest mapToSetCollateralCoinRequest(AccountDataRequest accountDataRequest) {
-        return SetCollateralCoinRequest.builder()
-                .coin(accountDataRequest.getCoin())
-                .collateralSwitch(accountDataRequest.getCollateralSwitch() == null ? null : accountDataRequest.getCollateralSwitch().getCollateralSwitchMode())
-                .build();
-    }
-
-
     // Asset request
     public AssetInternalTransferRequest mapToAssetInternalTransferRequest(AssetDataRequest assetDataRequest) {
         return AssetInternalTransferRequest.builder()
@@ -315,77 +295,4 @@ public class ABFinanceJsonConverter {
                 singleCoinBalanceRequest.getWithTransferSafeAmount() == null ? null : singleCoinBalanceRequest.getWithTransferSafeAmount().getValue(),
                 singleCoinBalanceRequest.getWithLtvTransferSafeAmount() == null ? null : singleCoinBalanceRequest.getWithLtvTransferSafeAmount().getValue());
     }
-
-    // User Requests
-    public UserSubMemberRequest mapToCreateSubMemberRequest(UserDataRequest subUserRequest) {
-        return UserSubMemberRequest.builder()
-                .username(subUserRequest.getUsername())
-                .password(subUserRequest.getPassword())
-                .memberType(subUserRequest.getMemberType() == null ? MemberType.NORMAL_SUB_ACCOUNT.getValue() : subUserRequest.getMemberType().getValue())
-                .switchOption(subUserRequest.getSwitchOption() == null ? SwitchOption.TURN_OFF.getValue() : subUserRequest.getSwitchOption().getValue())
-                .isUta(subUserRequest.getIsUta() == null ? IsUta.UTA_ACCOUNT.isUta() : subUserRequest.getIsUta().isUta())
-                .note(subUserRequest.getNote())
-                .build();
-    }
-
-    public CreateSubApiKeyRequest mapToCreateSubApiRequest(UserDataRequest subUserRequest) {
-        Map<String, List<String>> permissions = Collections.emptyMap();
-        if (subUserRequest.getUserPermissionsMap() != null) {
-            permissions = subUserRequest.getUserPermissionsMap().getPermissionMap();
-        } else if (subUserRequest.getPermissionsMap() != null && !subUserRequest.getPermissionsMap().isEmpty()) {
-            permissions = subUserRequest.getPermissionsMap();
-        }
-        return CreateSubApiKeyRequest.builder()
-                .subuid(subUserRequest.getSubuid())
-                .readOnly(subUserRequest.getReadOnlyStatus() == null ? null : subUserRequest.getReadOnlyStatus().getValue())
-                .ips(subUserRequest.getIps() == null ? null : listToString(subUserRequest.getIps()))
-                .permissions(permissions)
-                .note(subUserRequest.getNote())
-                .build();
-    }
-
-    public ModifyApiKeyRequest mapToModifyMasterApiKeyRequest(UserDataRequest userDataRequest) {
-        Map<String, List<String>> permissions = Collections.emptyMap();
-        if (userDataRequest.getUserPermissionsMap() != null) {
-            permissions = userDataRequest.getUserPermissionsMap().getPermissionMap();
-        } else if (userDataRequest.getPermissionsMap() != null && !userDataRequest.getPermissionsMap().isEmpty()) {
-            permissions = userDataRequest.getPermissionsMap();
-        }
-        return ModifyApiKeyRequest.builder()
-                .readOnly(userDataRequest.getReadOnlyStatus() == null ? null : userDataRequest.getReadOnlyStatus().getValue())
-                .ips(userDataRequest.getIps() == null ? null : listToString(userDataRequest.getIps()))
-                .permissionsMap(permissions)
-                .build();
-    }
-
-    public ModifyApiKeyRequest mapToModifySubApiKeyRequest(UserDataRequest userDataRequest) {
-        Map<String, List<String>> permissions = Collections.emptyMap();
-        if (userDataRequest.getUserPermissionsMap() != null) {
-            permissions = userDataRequest.getUserPermissionsMap().getPermissionMap();
-        } else if (userDataRequest.getPermissionsMap() != null && !userDataRequest.getPermissionsMap().isEmpty()) {
-            permissions = userDataRequest.getPermissionsMap();
-        }
-        return ModifyApiKeyRequest.builder()
-                .apikey(userDataRequest.getApikey())
-                .readOnly(userDataRequest.getReadOnlyStatus() == null ? null : userDataRequest.getReadOnlyStatus().getValue())
-                .ips(userDataRequest.getIps() == null ? null : listToString(userDataRequest.getIps()))
-                .permissionsMap(permissions)
-                .build();
-    }
-
-    public FreezeSubUIDRquest mapToFreezeSubUIDRequest(UserDataRequest userDataRequest) {
-        return FreezeSubUIDRquest.builder()
-                .subuid(userDataRequest.getSubuid())
-                .frozen(userDataRequest.getFrozenStatus() == null ? null : userDataRequest.getFrozenStatus().getValue())
-                .build();
-    }
-
-    public ModifyApiKeyRequest mapToDeleteSubApiKeyRequest(UserDataRequest userDataRequest) {
-        return ModifyApiKeyRequest
-                .builder()
-                .apikey(userDataRequest.getApikey())
-                .build();
-    }
-
-
 }

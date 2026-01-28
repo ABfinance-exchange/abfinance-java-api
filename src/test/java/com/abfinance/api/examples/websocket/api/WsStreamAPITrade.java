@@ -9,7 +9,7 @@ import static com.abfinance.api.client.config.ABFinanceApiConfig.V5_TRADE;
 
 public class WsStreamAPITrade {
     public static void main(String[] args) {
-        var client = ABFinanceApiClientFactory.newInstance("8wYkmpLsMg10eNQyPm", "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", ABFinanceApiConfig.STREAM_TESTNET_DOMAIN).newWebsocketClient(20);
+        var client = ABFinanceApiClientFactory.newInstance("YOUR_API_KEY", "YOUR_API_SECRET", ABFinanceApiConfig.STREAM_TESTNET_DOMAIN).newWebsocketClient(20);
         var webSocket = client.getTradeChannelStream(Map.of("reqId", "test-001", "category", "spot", "symbol", "XRPUSDT",
                 "side", "Buy", "orderType", "Market", "qty", "10", "orderLinkId", "t0003"), V5_TRADE);
 

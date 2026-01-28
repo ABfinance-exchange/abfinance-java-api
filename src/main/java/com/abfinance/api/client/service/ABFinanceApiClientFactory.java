@@ -233,20 +233,6 @@ public class ABFinanceApiClientFactory {
     }
 
     /**
-     * Creates a new synchronous/blocking REST client.
-     */
-    public ABFinanceApiUserRestClient newUserRestClient() {
-        return new ABFinanceApiUserRestClientImpl(apiKey, secret, baseUrl, debugMode, recvWindow, logOption);
-    }
-
-    /**
-     * Creates a new asynchronous/non-blocking REST client to User and upgrade endpoints.
-     */
-    public ABFinanceApiAsyncUserRestClient newAsyncUserRestClient() {
-        return new ABFinanceApiAsyncUserRestClientImpl(apiKey, secret, baseUrl, debugMode, recvWindow, logOption);
-    }
-
-    /**
      * Creates a new synchronous/blocking REST client to Market Data Endpoints
      */
     public ABFinanceApiMarketRestClient newMarketDataRestClient() {
@@ -314,6 +300,20 @@ public class ABFinanceApiClientFactory {
      */
     public ABFinanceApiAsyncEarnRestClient newAsyncEarnRestClient() {
         return new ABFinanceApiAsyncEarnRestClientImpl(apiKey, secret, baseUrl, debugMode, recvWindow, logOption);
+    }
+
+    /**
+     * Creates a new synchronous/blocking REST client to API Limit data
+     */
+    public ABFinanceApiLimitRestClient newApiLimitRestClient() {
+        return new ABFinanceApiLimitRestClientImpl(apiKey, secret, baseUrl, debugMode, recvWindow, logOption);
+    }
+
+    /**
+     * Creates a new asynchronous/non-blocking client to API Limit data
+     */
+    public ABFinanceApiAsyncLimitRestClient newAsyncApiLimitRestClient() {
+        return new ABFinanceApiAsyncLimitRestClientImpl(apiKey, secret, baseUrl, debugMode, recvWindow, logOption);
     }
 
     /**

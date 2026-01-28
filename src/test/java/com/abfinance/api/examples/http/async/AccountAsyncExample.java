@@ -13,10 +13,6 @@ public class AccountAsyncExample {
         var walletBalanceRequest = AccountDataRequest.builder().accountType(AccountType.UNIFIED).build();
         client.getWalletBalance(walletBalanceRequest, System.out::println);
 
-        // Get Borrow History
-        var accountBorrowHistoryRequest = AccountDataRequest.builder().build();
-        client.getAccountBorrowHistory(accountBorrowHistoryRequest, System.out::println);
-
         // Get Account info
         client.getAccountInfo(System.out::println);
 
@@ -24,5 +20,7 @@ public class AccountAsyncExample {
         var transactionLogRequest = AccountDataRequest.builder().build();
         client.getTransactionLog(transactionLogRequest, System.out::println);
 
+        // Get User Setting Config
+        client.getUserSettingConfig(System.out::println);
     }
 }

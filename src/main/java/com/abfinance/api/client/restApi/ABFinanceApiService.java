@@ -2,13 +2,10 @@ package com.abfinance.api.client.restApi;
 
 import com.abfinance.api.client.constant.ABFinanceApiConstants;
 import com.abfinance.api.client.domain.account.request.*;
+import com.abfinance.api.client.domain.apilimit.request.SetApiLimitRequest;
 import com.abfinance.api.client.domain.asset.request.*;
 import com.abfinance.api.client.domain.trade.OrderStatus;
 import com.abfinance.api.client.domain.trade.request.*;
-import com.abfinance.api.client.domain.user.request.CreateSubApiKeyRequest;
-import com.abfinance.api.client.domain.user.request.FreezeSubUIDRquest;
-import com.abfinance.api.client.domain.user.request.ModifyApiKeyRequest;
-import com.abfinance.api.client.domain.user.request.UserSubMemberRequest;
 import retrofit2.Call;
 import retrofit2.http.*;
 
@@ -81,14 +78,6 @@ public interface ABFinanceApiService {
                                     @Query("baseCoin") String baseCoin,
                                     @Query("optionType") String optionType,
                                     @Query("limit") Integer limit);
-
-    /**
-     * Get Index Price Components
-     * GET /v5/market/index-price-components
-     */
-    @GET("/v5/market/index-price-components")
-    Call<Object> getIndexPriceComponents(@Query("category") String category,
-                                         @Query("symbol") String symbol);
 
     /**
      * Get Price Limit
@@ -236,127 +225,6 @@ public interface ABFinanceApiService {
     @POST("/v5/order/amend-batch")
     Call<Object> amendBatchOrder(@Body AmendBatchOrderRequest batchOrderRequest);
 
-    // ==================== User Endpoints ====================
-
-    /**
-     * Get API Key Information
-     * GET /v5/user/query-api
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/query-api")
-    Call<Object> getCurrentAPIKeyInfo();
-
-    /**
-     * Get Sub UID List
-     * GET /v5/user/query-sub-members
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/query-sub-members")
-    Call<Object> getSubUIDList();
-
-    /**
-     * Get Sub UID List (Unlimited)
-     * GET /v5/user/submembers
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/submembers")
-    Call<Object> getSubUIDListUnlimited(@Query("pageSize") String pageSize,
-                                        @Query("nextCursor") String nextCursor);
-
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/submembers")
-    Call<Object> getSubUIDListUnlimited();
-
-    /**
-     * Get Sub Account All API Keys
-     * GET /v5/user/sub-apikeys
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/sub-apikeys")
-    Call<Object> getSubAccAllAPIKeyInfo(@Query("subMemberId") String subMemberId,
-                                        @Query("limit") Integer limit,
-                                        @Query("cursor") String cursor);
-
-    /**
-     * Get UID Wallet Type
-     * GET /v5/user/get-member-type
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/get-member-type")
-    Call<Object> getUIDWalletType(@Query("memberIds") String memberIds);
-
-    /**
-     * Get Escrow Sub Members
-     * GET /v5/user/escrow_sub_members
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/user/escrow_sub_members")
-    Call<Object> getEscrowSubMembers();
-
-    /**
-     * Create Sub UID
-     * POST /v5/user/create-sub-member
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/create-sub-member")
-    Call<Object> createSubMember(@Body UserSubMemberRequest userSubMemberRequest);
-
-    /**
-     * Create Sub UID API Key
-     * POST /v5/user/create-sub-api
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/create-sub-api")
-    Call<Object> createSubAPI(@Body CreateSubApiKeyRequest createSubApiKeyRequest);
-
-    /**
-     * Modify Master API Key
-     * POST /v5/user/update-api
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/update-api")
-    Call<Object> modifyMasterApiKey(@Body ModifyApiKeyRequest modifyMasterApiKeyRequest);
-
-    /**
-     * Modify Sub API Key
-     * POST /v5/user/update-sub-api
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/update-sub-api")
-    Call<Object> modifySubApiKey(@Body ModifyApiKeyRequest modifysubApiKeyRequest);
-
-    /**
-     * Delete Master API Key
-     * POST /v5/user/delete-api
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/delete-api")
-    Call<Object> deleteMasterApiKey();
-
-    /**
-     * Delete Sub API Key
-     * POST /v5/user/delete-sub-api
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/delete-sub-api")
-    Call<Object> deleteSubApiKey(@Body ModifyApiKeyRequest deleteSubUidRequest);
-
-    /**
-     * Delete Sub Member
-     * POST /v5/user/del-submember
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/del-submember")
-    Call<Object> deleteSubMember(@Body Map<String, Object> request);
-
-    /**
-     * Freeze Sub UID
-     * POST /v5/user/frozen-sub-member
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/user/frozen-sub-member")
-    Call<Object> freezeSubMember(@Body FreezeSubUIDRquest freezeSubUIDRquest);
-
     // ==================== Account Endpoints ====================
 
     /**
@@ -367,42 +235,6 @@ public interface ABFinanceApiService {
     @GET("/v5/account/wallet-balance")
     Call<Object> getWalletBalance(@Query("accountType") String accountType,
                                   @Query("coin") String coin);
-
-    /**
-     * Get Borrow History
-     * GET /v5/account/borrow-history
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/account/borrow-history")
-    Call<Object> getAccountBorrowHistory(@Query("currency") String currency,
-                                         @Query("startTime") Long startTime,
-                                         @Query("endTime") Long endTime,
-                                         @Query("limit") Integer limit,
-                                         @Query("cursor") String cursor);
-
-    /**
-     * Set Collateral Coin
-     * POST /v5/account/set-collateral-switch
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/account/set-collateral-switch")
-    Call<Object> setAccountCollateralCoin(@Body SetCollateralCoinRequest setCollateralCoinRequest);
-
-    /**
-     * Batch Set Collateral Coin
-     * POST /v5/account/set-collateral-switch-batch
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @POST("/v5/account/set-collateral-switch-batch")
-    Call<Object> batchSetAccountCollateralCoin(@Body BatchSetCollateralCoinRequest batchSetCollateralCoinRequest);
-
-    /**
-     * Get Collateral Info
-     * GET /v5/account/collateral-info
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/account/collateral-info")
-    Call<Object> getAccountCollateralInfo(@Query("currency") String currency);
 
     /**
      * Get Fee Rate
@@ -434,14 +266,6 @@ public interface ABFinanceApiService {
                                            @Query("baseCoin") String baseCoin,
                                            @Query("limit") Integer limit,
                                            @Query("cursor") String cursor);
-
-    /**
-     * Get MMP State
-     * GET /v5/account/mmp-state
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/account/mmp-state")
-    Call<Object> getAccountMMPState(@Query("baseCoin") String baseCoin);
 
     /**
      * Query DCP Info
@@ -564,17 +388,6 @@ public interface ABFinanceApiService {
                                                   @Query("endTime") Long endTime,
                                                   @Query("limit") Integer limit,
                                                   @Query("cursor") String cursor);
-
-    /**
-     * Get Coin Exchange Records
-     * GET /v5/asset/exchange/order-record
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/asset/exchange/order-record")
-    Call<Object> getAssetCoinExchangeRecords(@Query("fromCoin") String fromCoin,
-                                             @Query("toCoin") String toCoin,
-                                             @Query("limit") Integer limit,
-                                             @Query("cursor") String cursor);
 
     /**
      * Create Internal Transfer
@@ -762,31 +575,57 @@ public interface ABFinanceApiService {
                               @Query("limit") Integer limit,
                               @Query("cursor") String cursor);
 
-    /**
-     * Get Earn Yield
-     * GET /v5/earn/yield
-     */
-    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/earn/yield")
-    Call<Object> getEarnYield(@Query("category") String category,
-                              @Query("coin") String coin,
-                              @Query("productId") String productId,
-                              @Query("startTime") Long startTime,
-                              @Query("endTime") Long endTime,
-                              @Query("limit") Integer limit,
-                              @Query("cursor") String cursor);
+    // ==================== API Limit Endpoints ====================
 
     /**
-     * Get Earn Hourly Yield
-     * GET /v5/earn/hourly-yield
+     * Get API Limit
+     * GET /v5/apilimit/query
      */
     @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
-    @GET("/v5/earn/hourly-yield")
-    Call<Object> getEarnHourlyYield(@Query("category") String category,
-                                    @Query("coin") String coin,
-                                    @Query("productId") String productId,
-                                    @Query("startTime") Long startTime,
-                                    @Query("endTime") Long endTime,
-                                    @Query("limit") Integer limit,
-                                    @Query("cursor") String cursor);
+    @GET("/v5/apilimit/query")
+    Call<Object> getApiLimit(@Query("quotaId") String quotaId);
+
+    /**
+     * Get All API Limit
+     * GET /v5/apilimit/query-all
+     */
+    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("/v5/apilimit/query-all")
+    Call<Object> getAllApiLimit();
+
+    /**
+     * Get API Limit Cap
+     * GET /v5/apilimit/query-cap
+     */
+    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("/v5/apilimit/query-cap")
+    Call<Object> getApiLimitCap();
+
+    /**
+     * Set API Limit
+     * POST /v5/apilimit/set
+     */
+    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @POST("/v5/apilimit/set")
+    Call<Object> setApiLimit(@Body SetApiLimitRequest request);
+
+    // ==================== New Account Endpoints ====================
+
+    /**
+     * Get User Setting Config
+     * GET /v5/account/user-setting-config
+     */
+    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("/v5/account/user-setting-config")
+    Call<Object> getUserSettingConfig();
+
+    // ==================== New Asset Endpoints ====================
+
+    /**
+     * Get VASP List
+     * GET /v5/asset/withdraw/vasp/list
+     */
+    @Headers(ABFinanceApiConstants.ENDPOINT_SECURITY_TYPE_SIGNED_HEADER)
+    @GET("/v5/asset/withdraw/vasp/list")
+    Call<Object> getVaspList();
 }

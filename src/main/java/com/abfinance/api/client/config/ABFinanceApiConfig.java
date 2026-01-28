@@ -18,14 +18,6 @@ public class ABFinanceApiConfig {
      */
     public static final String STREAM_TESTNET_DOMAIN = "wss://stream-testnet.abfinance.com";
     /**
-     * Demo Trading Network URL.
-     */
-    public static final String DEMO_TRADING_DOMAIN = "https://api-demo.abfinance.com";
-    /**
-     * Demo Trading websocket url
-     */
-    public static final String DEMO_TRADING_STREAM_DOMAIN = "wss://stream-demo.abfinance.com";
-    /**
      * Mainnet websocket url
      */
     public static final String STREAM_MAINNET_DOMAIN = "wss://stream.abfinance.com";

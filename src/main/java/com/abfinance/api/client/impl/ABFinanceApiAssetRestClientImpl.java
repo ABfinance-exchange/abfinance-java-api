@@ -86,16 +86,6 @@ public class ABFinanceApiAssetRestClientImpl implements ABFinanceApiAssetRestCli
     }
 
     @Override
-    public Object getAssetCoinExchangeRecords(AssetDataRequest coinExchangeRecordsRequest) {
-        return executeSync(apiService.getAssetCoinExchangeRecords(
-                coinExchangeRecordsRequest.getFromCoin(),
-                coinExchangeRecordsRequest.getToCoin(),
-                coinExchangeRecordsRequest.getLimit(),
-                coinExchangeRecordsRequest.getCursor()
-        ));
-    }
-
-    @Override
     public Object createAssetInternalTransfer(AssetDataRequest assetInternalTransferRequest) {
         var request = converter.mapToAssetInternalTransferRequest(assetInternalTransferRequest);
         return executeSync(apiService.createAssetInternalTransfer(request));
@@ -198,5 +188,10 @@ public class ABFinanceApiAssetRestClientImpl implements ABFinanceApiAssetRestCli
     @Override
     public Object getAssetWithdrawalAmount(AssetDataRequest request) {
         return executeSync(apiService.getAssetWithdrawalAmount(request.getCoin()));
+    }
+
+    @Override
+    public Object getVaspList() {
+        return executeSync(apiService.getVaspList());
     }
 }

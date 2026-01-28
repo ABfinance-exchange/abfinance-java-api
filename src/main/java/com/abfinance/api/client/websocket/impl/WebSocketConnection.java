@@ -108,16 +108,18 @@ public class WebSocketConnection extends WebSocketListener {
         onClosedCallback.onClosed(code, reason);
     }
 
-    @SneakyThrows
     @Override
     public void onMessage(@NotNull WebSocket ws, String text) {
-
-        // session status
-        if (text.contains("authorizedSince")) {
-            JSONObject result =  new JSONObject(text).getJSONObject("result");
-            WebSocketConnection.sessionStatus = !result.isNull("authorizedSince");
+        try {
+            // session status
+            if (text.contains("authorizedSince")) {
+                JSONObject result =  new JSONObject(text).getJSONObject("result");
+                WebSocketConnection.sessionStatus = !result.isNull("authorizedSince");
+            }
+            onMessageCallback.onMessage(text);
+        } catch (Exception e) {
+            logger.error("[Connection {}] Error processing message", connectionId, e);
         }
-        onMessageCallback.onMessage(text);
     }
 
     @Override

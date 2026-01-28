@@ -11,7 +11,6 @@ public interface ABFinanceApiAsyncAssetRestClient {
     void getAssetDepositRecords(AssetDataRequest assetDepositRecordsRequest, ABFinanceApiCallback<Object> callback);
     void getAssetSubMemberDepositAddress(AssetDataRequest subDepositRequest, ABFinanceApiCallback<Object> callback);
     void getAssetSubMembersDepositRecords(AssetDataRequest assetDepositRecordsRequest, ABFinanceApiCallback<Object> callback);
-    void getAssetCoinExchangeRecords(AssetDataRequest assetDataRequest, ABFinanceApiCallback<Object> callback);
     void createAssetInternalTransfer(AssetDataRequest assetInternalTransferRequest, ABFinanceApiCallback<Object> callback);
     void getAssetSingleCoinBalance(AssetDataRequest singleCoinBalanceRequest, ABFinanceApiCallback<Object> callback);
     void getAssetAllCoinsBalance(AssetDataRequest allCoinsBalanceRequest, ABFinanceApiCallback<Object> callback);
@@ -25,4 +24,5 @@ public interface ABFinanceApiAsyncAssetRestClient {
     void getAssetWithdrawAddress(AssetDataRequest request, ABFinanceApiCallback<Object> callback);
     void getAssetWithdrawalRecords(AssetDataRequest assetWithdrawRecordsRequest, ABFinanceApiCallback<Object> callback);
     void getAssetWithdrawalAmount(AssetDataRequest request, ABFinanceApiCallback<Object> callback);
+    void getVaspList(ABFinanceApiCallback<Object> callback);
 }

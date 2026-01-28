@@ -9,11 +9,6 @@ public class AssetExample {
     public static void main(String[] args) {
         var client = ABFinanceApiClientFactory.newInstance("YOUR_API_KEY", "YOUR_API_SECRET").newAssetRestClient();
 
-        // Get Coin Exchange Records
-        var coinExchangeRecordsRequest = AssetDataRequest.builder().build();
-        var coinExchangeRecords = client.getAssetCoinExchangeRecords(coinExchangeRecordsRequest);
-        System.out.println(coinExchangeRecords);
-
         // Get All Coins Balance
         var allCoinsBalanceRequest = AssetDataRequest.builder().accountType(AccountType.UNIFIED).build();
         var allCoinsBalance = client.getAssetAllCoinsBalance(allCoinsBalanceRequest);
@@ -125,5 +120,9 @@ public class AssetExample {
         var assetWithdrawCancelRequest = AssetDataRequest.builder().withdrawID("xxxxx").build();
         var cancelWithdraw = client.cancelAssetWithdraw(assetWithdrawCancelRequest);
         System.out.println(cancelWithdraw);
+
+        // Get VASP List
+        var vaspList = client.getVaspList();
+        System.out.println("VASP List: " + vaspList);
     }
 }

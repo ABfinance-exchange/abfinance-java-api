@@ -1,4 +1,4 @@
-package com.abfinance.api.client.domain.user.request;
+package com.abfinance.api.client.domain.apilimit.request;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.ToString;
 @ToString
 @Builder
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class FreezeSubUIDRquest {
-    private Integer subuid; // required
-    private Integer frozen; // required 0：unfreeze, 1：freeze
+public class ApiLimitDataRequest {
+    private String quotaId;
+    private String dailyCap;
 }

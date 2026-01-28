@@ -6,7 +6,7 @@ import okhttp3.WebSocket;
 
 import java.util.List;
 
-public class WebsockeCloseStreamlExamples {
+public class WebsocketCloseStreamExamples {
     public static void main(String[] args) {
         var client = ABFinanceApiClientFactory.newInstance(ABFinanceApiConfig.STREAM_MAINNET_DOMAIN, true).newWebsocketClient(5, System.out::println);
 

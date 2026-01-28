@@ -70,30 +70,4 @@ public class ABFinanceApiEarnRestClientImpl implements ABFinanceApiEarnRestClien
                 request.getCursor()
         ));
     }
-
-    @Override
-    public Object getEarnYield(EarnDataRequest request) {
-        return executeSync(apiService.getEarnYield(
-                request.getCategory(),
-                request.getCoin(),
-                request.getProductId(),
-                request.getStartTime(),
-                request.getEndTime(),
-                request.getLimit(),
-                request.getCursor()
-        ));
-    }
-
-    @Override
-    public Object getEarnHourlyYield(EarnDataRequest request) {
-        return executeSync(apiService.getEarnHourlyYield(
-                request.getCategory(),
-                request.getCoin(),
-                request.getProductId(),
-                request.getStartTime(),
-                request.getEndTime(),
-                request.getLimit(),
-                request.getCursor()
-        ));
-    }
 }

@@ -11,7 +11,7 @@ import com.abfinance.api.client.domain.trade.*;
 import com.abfinance.api.client.service.ABFinanceApiClientFactory;
 import java.util.Arrays;
 
-public class BatchOrderAsyncExampleAsync {
+public class BatchOrderAsyncExample {
     public static void main(String[] args) {
         var client = ABFinanceApiClientFactory.newInstance("YOUR_API_KEY", "YOUR_API_SECRET", ABFinanceApiConfig.TESTNET_DOMAIN).newAsyncTradeRestClient();
 

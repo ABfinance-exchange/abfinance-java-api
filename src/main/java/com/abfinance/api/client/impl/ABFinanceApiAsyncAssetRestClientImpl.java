@@ -83,16 +83,6 @@ public class ABFinanceApiAsyncAssetRestClientImpl implements ABFinanceApiAsyncAs
     }
 
     @Override
-    public void getAssetCoinExchangeRecords(AssetDataRequest coinExchangeRecordsRequest, ABFinanceApiCallback<Object> callback) {
-        apiService.getAssetCoinExchangeRecords(
-                coinExchangeRecordsRequest.getFromCoin(),
-                coinExchangeRecordsRequest.getToCoin(),
-                coinExchangeRecordsRequest.getLimit(),
-                coinExchangeRecordsRequest.getCursor()
-        ).enqueue(new ABFinanceApiCallbackAdapter<>(callback));
-    }
-
-    @Override
     public void createAssetInternalTransfer(AssetDataRequest assetInternalTransferRequest, ABFinanceApiCallback<Object> callback) {
         var request = converter.mapToAssetInternalTransferRequest(assetInternalTransferRequest);
         apiService.createAssetInternalTransfer(request).enqueue(new ABFinanceApiCallbackAdapter<>(callback));
@@ -196,5 +186,10 @@ public class ABFinanceApiAsyncAssetRestClientImpl implements ABFinanceApiAsyncAs
     @Override
     public void getAssetWithdrawalAmount(AssetDataRequest request, ABFinanceApiCallback<Object> callback) {
         apiService.getAssetWithdrawalAmount(request.getCoin()).enqueue(new ABFinanceApiCallbackAdapter<>(callback));
+    }
+
+    @Override
+    public void getVaspList(ABFinanceApiCallback<Object> callback) {
+        apiService.getVaspList().enqueue(new ABFinanceApiCallbackAdapter<>(callback));
     }
 }

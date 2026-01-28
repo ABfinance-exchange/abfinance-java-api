@@ -1,17 +1,14 @@
 package com.abfinance.api.client.impl;
 
-import com.abfinance.api.client.domain.account.request.BatchSetCollateralCoinRequest;
 import com.abfinance.api.client.restApi.ABFinanceApiAccountRestClient;
 import com.abfinance.api.client.restApi.ABFinanceApiService;
 import com.abfinance.api.client.domain.account.request.AccountDataRequest;
-import com.abfinance.api.client.service.ABFinanceJsonConverter;
 
 import static com.abfinance.api.client.service.ABFinanceApiServiceGenerator.createService;
 import static com.abfinance.api.client.service.ABFinanceApiServiceGenerator.executeSync;
 
 public class ABFinanceApiAccountRestClientImpl implements ABFinanceApiAccountRestClient {
     private final ABFinanceApiService apiService;
-    private final ABFinanceJsonConverter converter = new ABFinanceJsonConverter();
 
     public ABFinanceApiAccountRestClientImpl(String apiKey, String secret, String baseUrl, boolean debugMode, long recvWindow, String logOption) {
         apiService = createService(ABFinanceApiService.class, apiKey, secret, baseUrl, debugMode, recvWindow, logOption, "");
@@ -24,35 +21,6 @@ public class ABFinanceApiAccountRestClientImpl implements ABFinanceApiAccountRes
                 walletBalanceRequest.getAccountType() == null ? null : walletBalanceRequest.getAccountType().getAccountTypeValue(),
                 walletBalanceRequest.getCoins()
         ));
-    }
-
-    @Override
-    public Object getAccountBorrowHistory(AccountDataRequest borrowHistoryRequest) {
-        return executeSync(apiService.getAccountBorrowHistory(
-                borrowHistoryRequest.getCurrency(),
-                borrowHistoryRequest.getStartTime(),
-                borrowHistoryRequest.getEndTime(),
-                borrowHistoryRequest.getLimit(),
-                borrowHistoryRequest.getCursor()
-        ));
-    }
-
-    @Override
-    public Object setAccountCollateralCoin(AccountDataRequest setCollateralCoinRequest) {
-        var request = converter.mapToSetCollateralCoinRequest(setCollateralCoinRequest);
-        return executeSync(apiService.setAccountCollateralCoin(request));
-    }
-
-    @Override
-    public Object batchSetAccountCollateralCoin(BatchSetCollateralCoinRequest batchSetCollateralCoinRequest) {
-        return executeSync(apiService.batchSetAccountCollateralCoin(batchSetCollateralCoinRequest));
-    }
-
-    @Override
-    public Object getAccountCollateralInfo(AccountDataRequest request) {
-        return executeSync((apiService.getAccountCollateralInfo(
-                request.getCurrency()
-        )));
     }
 
     @Override
@@ -85,12 +53,12 @@ public class ABFinanceApiAccountRestClientImpl implements ABFinanceApiAccountRes
     }
 
     @Override
-    public Object getAccountMMPState(AccountDataRequest request) {
-        return executeSync(apiService.getAccountMMPState(request.getBaseCoin()));
+    public Object getAccountSMPGroup() {
+        return executeSync(apiService.getAccountSMPGroupId());
     }
 
     @Override
-    public Object getAccountSMPGroup() {
-        return executeSync(apiService.getAccountSMPGroupId());
+    public Object getUserSettingConfig() {
+        return executeSync(apiService.getUserSettingConfig());
     }
 }

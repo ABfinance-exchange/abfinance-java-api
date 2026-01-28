@@ -70,30 +70,4 @@ public class ABFinanceApiAsyncEarnRestClientImpl implements ABFinanceApiAsyncEar
                 request.getCursor()
         ).enqueue(new ABFinanceApiCallbackAdapter<>(callback));
     }
-
-    @Override
-    public void getEarnYield(EarnDataRequest request, ABFinanceApiCallback<Object> callback) {
-        apiService.getEarnYield(
-                request.getCategory(),
-                request.getCoin(),
-                request.getProductId(),
-                request.getStartTime(),
-                request.getEndTime(),
-                request.getLimit(),
-                request.getCursor()
-        ).enqueue(new ABFinanceApiCallbackAdapter<>(callback));
-    }
-
-    @Override
-    public void getEarnHourlyYield(EarnDataRequest request, ABFinanceApiCallback<Object> callback) {
-        apiService.getEarnHourlyYield(
-                request.getCategory(),
-                request.getCoin(),
-                request.getProductId(),
-                request.getStartTime(),
-                request.getEndTime(),
-                request.getLimit(),
-                request.getCursor()
-        ).enqueue(new ABFinanceApiCallbackAdapter<>(callback));
-    }
 }

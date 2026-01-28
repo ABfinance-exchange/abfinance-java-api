@@ -21,7 +21,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
-public class ws_trade_api_demo {
+public class WsTradeApiDemo {
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
     public static void main(String[] args) {
@@ -54,7 +54,7 @@ public class ws_trade_api_demo {
             @Override
             public void onOpen(ServerHandshake handshake) {
                 System.out.println("Connected.");
-                ws_trade_api_demo.onOpen(this);
+                WsTradeApiDemo.onOpen(this);
             }
 
             @Override
@@ -84,8 +84,8 @@ public class ws_trade_api_demo {
     }
 
     static void sendAuth(WebSocketClient ws) {
-        String key = "xxx";
-        String secret = "xxxxxxxx";
+        String key = "YOUR_API_KEY";
+        String secret = "YOUR_API_SECRET";
         long expires = Instant.now().toEpochMilli() + 10000;
         String _val = "GET/realtime" + expires;
 

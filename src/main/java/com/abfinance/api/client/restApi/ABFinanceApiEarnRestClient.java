@@ -30,16 +30,4 @@ public interface ABFinanceApiEarnRestClient {
      * GET /v5/earn/order
      */
     Object getEarnOrder(EarnDataRequest request);
-
-    /**
-     * Get Earn Yield
-     * GET /v5/earn/yield
-     */
-    Object getEarnYield(EarnDataRequest request);
-
-    /**
-     * Get Earn Hourly Yield
-     * GET /v5/earn/hourly-yield
-     */
-    Object getEarnHourlyYield(EarnDataRequest request);
 }

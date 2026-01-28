@@ -12,7 +12,7 @@ import java.util.Map;
 
 public class TradeAsyncExample {
     public static void main(String[] args) {
-        var client = ABFinanceApiClientFactory.newInstance("8wYkmpLsMg10eNQyPm", "Ouxc34myDnXvei54XsBZgoQzfGxO4bkr2Zsj", ABFinanceApiConfig.TESTNET_DOMAIN, true).newAsyncTradeRestClient();
+        var client = ABFinanceApiClientFactory.newInstance("YOUR_API_KEY", "YOUR_API_SECRET", ABFinanceApiConfig.TESTNET_DOMAIN, true).newAsyncTradeRestClient();
 
         // Place an order
         var newOrderRequest = TradeOrderRequest.builder().category(CategoryType.LINEAR).symbol("XRPUSDT")

@@ -4,7 +4,6 @@ import com.abfinance.api.client.domain.CategoryType;
 import com.abfinance.api.client.domain.account.AccountType;
 import com.abfinance.api.client.domain.account.CollateralSwitch;
 import com.abfinance.api.client.domain.account.SpotHedgingMode;
-import com.abfinance.api.client.domain.user.IsUta;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
@@ -34,5 +33,4 @@ public class AccountDataRequest {
     private String coins;
     private String symbol;
     private SpotHedgingMode setHedgingMode;
-    private IsUta isUta;
 }
