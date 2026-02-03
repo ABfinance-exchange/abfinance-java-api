@@ -27,6 +27,8 @@ public class ABFinanceApiCallbackAdapter<T> implements Callback<T> {
             if (response.code() == 504) {
                 // HTTP 504 return code is used when the API successfully sent the message but not get a response within the timeout period.
                 // It is important to NOT treat this as a failure; the execution status is UNKNOWN and could have been a success.
+                // Notify the caller about the timeout so they can handle it appropriately.
+                onFailure(call, new ABFinanceApiException("Request timeout (504): execution status is UNKNOWN and could have been a success."));
                 return;
             }
             try {

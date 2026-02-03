@@ -1,14 +1,15 @@
 package com.abfinance.api.client.security;
 
+import com.abfinance.api.client.exception.ABFinanceApiException;
+import com.abfinance.api.client.util.ParameterChecker;
 import org.apache.commons.codec.binary.Hex;
+import org.jetbrains.annotations.NotNull;
 
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
-import com.abfinance.api.client.util.ParameterChecker;
-import org.jetbrains.annotations.NotNull;
 
 /**
  * Utility class to sign messages using HMAC-SHA256.
@@ -41,7 +42,7 @@ public class HmacSHA256Signer implements SignatureGenerator {
             byte[] hash = sha256_HMAC.doFinal(message.getBytes(StandardCharsets.UTF_8));
             return Hex.encodeHexString(hash);
         } catch (NoSuchAlgorithmException | InvalidKeyException e) {
-            throw new RuntimeException(e);
+            throw new ABFinanceApiException("Failed to generate HMAC-SHA256 signature", e);
         }
     }
 
@@ -59,7 +60,7 @@ public class HmacSHA256Signer implements SignatureGenerator {
             mac.init(secretKeySpec);
             hmacSha256 = mac.doFinal(data.getBytes());
         } catch (Exception e) {
-            throw new RuntimeException("Failed to calculate hmac-sha256", e);
+            throw new ABFinanceApiException("Failed to calculate hmac-sha256", e);
         }
         return Hex.encodeHexString(hmacSha256);
     }

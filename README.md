@@ -24,9 +24,9 @@ Ensure you have Java 11 or higher.
 Maven Example
 ```xml
 <dependency>
-    <groupId>com.abfinance</groupId>
+    <groupId>io.github.johnnywic</groupId>
     <artifactId>abfinance-java-api</artifactId>
-    <version>1.0.0</version>
+    <version>1.0.1</version>
 </dependency>
 ```
 

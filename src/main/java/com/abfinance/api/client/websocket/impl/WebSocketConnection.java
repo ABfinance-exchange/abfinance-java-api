@@ -5,7 +5,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import com.abfinance.api.client.exception.ABFinanceApiException;
 import com.abfinance.api.client.websocket.callback.*;
 import lombok.Getter;
-import lombok.SneakyThrows;
 import org.jetbrains.annotations.NotNull;
 import org.json.JSONObject;
 import org.slf4j.Logger;
@@ -22,14 +21,14 @@ public class WebSocketConnection extends WebSocketListener {
     private static final AtomicInteger connectionCounter = new AtomicInteger(0);
     private static final int NORMAL_CLOSURE_STATUS = 1000;
     private static final Logger logger = LoggerFactory.getLogger(WebSocketConnection.class);
-    private static OkHttpClient client;
-    private static boolean sessionStatus;
 
     @Getter
     private final int connectionId;
     private final Object mutex;
     private final Request request;
     private final String streamName;
+    private final OkHttpClient client;
+    private volatile boolean sessionStatus;
 
     private final WebSocketOpenCallback onOpenCallback;
     private final WebSocketMessageCallback onMessageCallback;
@@ -58,7 +57,8 @@ public class WebSocketConnection extends WebSocketListener {
         this.streamName = request.url().host() + request.url().encodedPath();
         this.webSocket = null;
         this.mutex = new Object();
-        WebSocketConnection.client = client;
+        this.client = client;
+        this.sessionStatus = false;
     }
 
     public void connect() {
@@ -114,7 +114,7 @@ public class WebSocketConnection extends WebSocketListener {
             // session status
             if (text.contains("authorizedSince")) {
                 JSONObject result =  new JSONObject(text).getJSONObject("result");
-                WebSocketConnection.sessionStatus = !result.isNull("authorizedSince");
+                this.sessionStatus = !result.isNull("authorizedSince");
             }
             onMessageCallback.onMessage(text);
         } catch (Exception e) {

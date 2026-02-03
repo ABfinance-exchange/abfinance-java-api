@@ -12,17 +12,19 @@ import static com.abfinance.api.client.log.Slf4jLoggingInterceptor.HandleLogging
 public final class WebSocketStreamHttpClientSingleton {
     private final boolean debugMode;
     private final String logOption;
+    private final OkHttpClient okHttpClient;
 
     private WebSocketStreamHttpClientSingleton(boolean debugMode, String logOption) {
         this.debugMode = debugMode;
         this.logOption = logOption;
+        this.okHttpClient = createOkHttpClient(debugMode, logOption);
     }
 
     public static WebSocketStreamHttpClientSingleton createInstance(boolean debugMode, String logOption) {
         return new WebSocketStreamHttpClientSingleton(debugMode, logOption);
     }
 
-    public OkHttpClient createOkHttpClient(boolean debugMode, String logOption) {
+    private static OkHttpClient createOkHttpClient(boolean debugMode, String logOption) {
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
         if (debugMode) {
             HandleLoggingInterceptor(clientBuilder, logOption);
@@ -32,7 +34,6 @@ public final class WebSocketStreamHttpClientSingleton {
 
     public WebSocket createWebSocket(String url, WebSocketListener listener) {
         Request request = new Request.Builder().url(url).build();
-        OkHttpClient okHttpClient = createOkHttpClient(debugMode, logOption);
         return okHttpClient.newWebSocket(request, listener);
     }
 }

@@ -41,15 +41,15 @@ public class AuthenticationInterceptor implements Interceptor {
 
         boolean isSignatureRequired = original.header(ABFinanceApiConstants.SIGN_TYPE_HEADER) != null;
 
-        // Endpoint requires signing the payload
         String payload = "";
         if ("GET".equals(original.method())) {
-            payload = original.url().encodedQuery(); // extract query params
+            payload = original.url().encodedQuery();
             newRequestBuilder.get();
-        }else if ("POST".equals(original.method()) && original.body() != null) {
-            Buffer buffer = new Buffer();
-            original.body().writeTo(buffer);
-            payload = buffer.readString(StandardCharsets.UTF_8);
+        } else if ("POST".equals(original.method()) && original.body() != null) {
+            try (Buffer buffer = new Buffer()) {
+                original.body().writeTo(buffer);
+                payload = buffer.readString(StandardCharsets.UTF_8);
+            }
             MediaType mediaType = MediaType.parse("application/json; charset=utf-8");
             RequestBody body = RequestBody.create(payload, mediaType);
             newRequestBuilder.post(body);

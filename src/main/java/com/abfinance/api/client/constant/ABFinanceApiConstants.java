@@ -42,7 +42,7 @@ public class ABFinanceApiConstants {
     /**
      * HTTP Header to be used for Connection.
      */
-    public static final String CONNECTION_HEADER = "User-Agent";
+    public static final String CONNECTION_HEADER = "Connection";
 
     /**
      * HTTP Header to be used for Broker Referral Code.

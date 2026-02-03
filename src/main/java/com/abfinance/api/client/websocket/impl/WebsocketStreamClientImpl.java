@@ -34,9 +34,11 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
 
     private WebSocketMessageCallback webSocketMessageCallback;
     private final WebSocketStreamHttpClientSingleton webSocketHttpClientSingleton;
-    private WebSocket webSocket;
-    private boolean isAuthenticated = false;
-    private final List<Map<String, Object>> messageQueue = new ArrayList<>(); // Queue to hold messages before authentication
+    private volatile WebSocket webSocket;
+    private volatile boolean isAuthenticated = false;
+    private volatile boolean isRunning = false;
+    private Thread pingThread;
+    private final List<Map<String, Object>> messageQueue = new ArrayList<>();
 
     private final String apikey;
     private final String secret;
@@ -151,19 +153,22 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
 
     @NotNull
     private Thread createPingThread() {
-        return new Thread(() -> {
+        Thread thread = new Thread(() -> {
             try {
-                // check if the WebSocket is still valid
-                while (this.webSocket != null) {
-                        webSocket.send(PING_DATA);
-                        LOGGER.info(PING_DATA);
-                        TimeUnit.SECONDS.sleep(pingInterval); // waits for 10 seconds before the next iteration
+                while (isRunning && webSocket != null) {
+                    webSocket.send(PING_DATA);
+                    LOGGER.info(PING_DATA);
+                    TimeUnit.SECONDS.sleep(pingInterval);
                 }
             } catch (InterruptedException e) {
-                LOGGER.error("Ping thread was interrupted", e);
+                LOGGER.debug("Ping thread interrupted, shutting down");
                 Thread.currentThread().interrupt();
+            } catch (Exception e) {
+                LOGGER.error("Ping thread error", e);
             }
         });
+        thread.setDaemon(true);
+        return thread;
     }
 
     @NotNull
@@ -282,14 +287,25 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
 
     @Override
     public void onError(Throwable t) {
-        LOGGER.error(t.getMessage());
+        LOGGER.error("WebSocket error: {}", t.getMessage(), t);
+        stopPingThread();
+        this.webSocket = null;
+        this.isAuthenticated = false;
     }
 
     @Override
     public void onClose(WebSocket ws, int code, String reason) {
         LOGGER.info("WebSocket closed. Code: {}, Reason: {}", code, reason);
-        ws.close(code, reason);
+        stopPingThread();
         this.webSocket = null;
+        this.isAuthenticated = false;
+    }
+
+    private void stopPingThread() {
+        this.isRunning = false;
+        if (this.pingThread != null && this.pingThread.isAlive()) {
+            this.pingThread.interrupt();
+        }
     }
 
     @Override
@@ -317,12 +333,12 @@ public class WebsocketStreamClientImpl implements WebsocketStreamClient {
     public WebSocket connect() {
         String wssUrl = getWssUrl();
         LOGGER.info(wssUrl);
+        this.isRunning = true;
         this.webSocket = webSocketHttpClientSingleton.createWebSocket(wssUrl, createWebSocketListener());
 
-        // Start the ping thread immediately.
-        Thread pingThread = createPingThread();
-        pingThread.setName(THREAD_PING); // Default to public ping name
-        pingThread.start();
+        this.pingThread = createPingThread();
+        this.pingThread.setName(THREAD_PING);
+        this.pingThread.start();
         return this.webSocket;
     }
 
