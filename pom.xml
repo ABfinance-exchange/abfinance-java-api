@@ -6,7 +6,7 @@
 
     <groupId>io.github.johnnywic</groupId>
     <artifactId>abfinance-java-api</artifactId>
-    <version>1.0.1</version>
+    <version>1.0.2</version>
     <packaging>jar</packaging>
 
     <name>abfinance-java-api</name>
